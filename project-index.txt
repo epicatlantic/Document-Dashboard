@@ -4,9 +4,6 @@ Generated on: 6/22/2026
 
 docs/
 └── BFPCL and DSV Project
-    ├── 00. Index
-    │   ├── ~$1. Invoice 2026-03-13 EA-FCE Laurent Vial Visit to NGA 13-22Mar2026.xlsx
-    │   └── ~$VIAL LAURENT FCE EXPENSES.xlsx
     ├── 01 Summary Reports From Inception
     │   ├── 01. Highlights.docx
     │   ├── 02. BFPCL Invitaion to EPIC to Join Team.pdf
@@ -48,6 +45,125 @@ docs/
     │   │   └── PSE-SPC-001-R01_Slug Catcher Preliminary Specification_EAL 07 JUL 22.pdf
     │   ├── 03. Material and Corrosion Management
     │   │   └── MCM-DOC-001-R01_Material Specification and Corrosion Management_ EAL-13 Jul 22.pdf
+    │   ├── 04. Pipelines
+    │   │   ├── PPL-ALS-001 thru 038-A01_Pipeline Alignment Sheets_EAL-19 JUL 22.pdf
+    │   │   ├── PPL-DSH-001-R01_Data Sheet for Line Pipes_EAL- 22 Jul 22.pdf
+    │   │   ├── PPL-DSH-002-R01_ Data Sheets for Concrete Weight Coating_EAL-11 AUG 22.pdf
+    │   │   ├── PPL-DSH-003_Data Sheets for Mainline Valves_EAL- 14 JUL 22.pdf
+    │   │   ├── PPL-DSH-004-R01_Data Sheets for Mainline Fittings_EAL-04 Aug 22.pdf
+    │   │   ├── PPL-DSH-005-R01_Pipeline Equipment Data Sheets-Pig Launchers  Receivers_EAL 09 AUG 22.pdf
+    │   │   ├── PPL-DSH-006-R01_Data Sheet for Induction Bends_EAL-12 JUL 22.pdf
+    │   │   ├── PPL-DSH-007-R01_Data Sheets for Field Cold Bend_EAL-10 AUG 22.pdf
+    │   │   ├── PPL-DSH-008-R01_Data Sheet for Barred Tee_07Jun22.pdf
+    │   │   ├── PPL-DSH-009-R01_Data Sheet for Isolation Joint_EAL-27 JUL 22.pdf
+    │   │   ├── PPL-DSH-010-R01_Data Sheet for Pig Trap End Closure_EAL-27 JUL 22.pdf
+    │   │   ├── PPL-DWG-001-R01_Overall Location Plan Map with Stations_EAL- 22 JUL 22.pdf
+    │   │   ├── PPL-DWG-002-R01_Right of Way Schematics_01 AUG 22.pdf
+    │   │   ├── PPL-DWG-003-R01_Pipeline Departure Drawing BBOU_EAL- 27 JUL 22.pdf
+    │   │   ├── PPL-DWG-004_Typical Detail of Pipe Trench_EAL-30May22.PDF
+    │   │   ├── PPL-DWG-005_Typical Minor And Untarred Road Crossing_EAL-30May22.PDF
+    │   │   ├── PPL-DWG-006_Typical Pipeline Crossing_EAL-30May22.pdf
+    │   │   ├── PPL-DWG-007_Typical River Crossing_EAL-30May22.pdf
+    │   │   ├── PPL-DWG-008_Typical Row Installation- New Route_EAL-30May22.PDF
+    │   │   ├── PPL-DWG-009-R01_Typical Concrete Slab_EAL- 08 Jun 22.pdf
+    │   │   ├── PPL-DWG-011-R01_Pipeline Arrival and Departure Drawing ELEP_EAL- 27 JUL 22.pdf
+    │   │   ├── PPL-DWG-012-R01_Pipeline Arrival Drawing AKAB_EAL-27 JUL 22.pdf
+    │   │   ├── PPL-DWG-013_Typical Gas Pipeline Danger Sign_EAL-30May22.PDF
+    │   │   ├── PPL-DWG-014_Typical Gas Pipeline Marker_EAL-30May22.PDF
+    │   │   ├── PPL-DWG-015-R01_Typical for Continous Concrete Weight Coating_EAL-02Jun22.pdf
+    │   │   ├── PPL-LST-002-A01_Schedule of Crossings_EAL-22 JUL 22.pdf
+    │   │   ├── PPL-LST-003-R01-PIPELINE MTO_EAL-02 Aug 22.pdf
+    │   │   ├── PPL-PHY-001-R01_Pipeline Integrity Monitoring-Management Philosophy_EAL-10 AUG 22.pdf
+    │   │   ├── PPL-PHY-002-R01_HDD Installation Philosophy_EAL-03 June 22.pdf
+    │   │   ├── PPL-PLN-003-R01_Pipeline Construction Plan inclusive of WPS PQR _EAL-09 AUG 22.pdf
+    │   │   ├── PPL-REQ-001-R01_Requisition for Line Pipes_EAL 08 AUG 22.pdf
+    │   │   ├── PPL-REQ-002-R01_Requisition for Barred Tees_EAL-08AUG22.pdf
+    │   │   ├── PPL-REQ-003-R01_Requisition for Pig Launchers and Receivers_EAL-08 Aug 22.pdf
+    │   │   ├── PPL-REQ-004-R01-Requisition for Pipeline Manual Valves_EAL-09 Aug 22.pdf
+    │   │   ├── PPL-REQ-005-R01_Requisition for Isolation Joints_EAL-08AUG22.pdf
+    │   │   ├── PPL-REQ-006-R01_Requisition for Induction Bends_EAL-09 AUG 22.pdf
+    │   │   ├── PPL-RPT-001-R01_ROW Geomatics Survey Report Review_EAL-08Aug2022.pdf
+    │   │   ├── PPL-RPT-002-A01_Wall Thickness Calculation Report_EAL-13Dec22.pdf
+    │   │   ├── PPL-RPT-003-R01_Pipeline Buoyancy-On Bottom Stability Analysis Report_EAL-06Jun22.pdf
+    │   │   ├── PPL-SPC-001-R01_Specification for Line Pipes_EAL-12 JUL 22.pdf
+    │   │   ├── PPL-SPC-002-R01_Specification for Concrete Weight Coating_EAL-06Jun22.pdf
+    │   │   ├── PPL-SPC-003_R01_Specification for Mainline Valves_EAL-08 Jun22.pdf
+    │   │   ├── PPL-SPC-004-R01-Specification for Mainline Fitting_EAL-04 Aug 22.pdf
+    │   │   ├── PPL-SPC-006-A01_Specification for Induction Bend_EAL-13Dec22.pdf
+    │   │   ├── PPL-SPC-007-R01_Specification for Cold Bends_EAL-12 JUL 22.pdf
+    │   │   ├── PPL-SPC-008-A01_Specification for Barred Tee_EAL-16Dec22.pdf
+    │   │   ├── PPL-SPC-009-A01_Specification for Pipeline Construction_EAL-13Dec22.pdf
+    │   │   ├── PPL-SPC-010-R01-Specification for Pipeline Cleaning, Gauging and Hydrotesting_EAL-.pdf
+    │   │   ├── PPL-SPC-011-A01_Specification for Pig Traps_ EAL 13Dec22.pdf
+    │   │   └── PPL-SPC-012-R01-Specifications for Pig Trap End Closure -EAL 22 Jun22.pdf
+    │   ├── 05. Mechanical
+    │   │   ├── MPP-RPT-002-R01_Pipe Stress Analysis Report_BBOU_EAL-09 AUG 22
+    │   │   │   ├── Attachment 1- ASME_B31.3_INPUT LISTING.pdf
+    │   │   │   ├── Attachment 2- ASME_B31.8_INPUT LISTING.pdf
+    │   │   │   ├── Attachment 3- ASME_B31.3_ANALYSIS RESULT.pdf
+    │   │   │   ├── Attachment 4- ASME_B31.8_ANALYSIS RESULT.pdf
+    │   │   │   ├── Attachment 5- SCREEN_Shot.BBOU.pdf
+    │   │   │   ├── Attachment 6- ASME_B31.3_STRESS_ISO.pdf
+    │   │   │   ├── Attachment 7- ASME_B31.8_STRESS_ISO.pdf
+    │   │   │   └── MPP-RPT-002-R01_Pipe Stress Analysis Report_BBOU_EAL-09 AUG 22.pdf
+    │   │   ├── MPP-RPT-003-R01_PIPE STRESS ANALYSIS REPORT_ELEP
+    │   │   │   ├── Attachments ELEPA( Screenshots).pdf
+    │   │   │   ├── MPP-RPT-003-R01_PIPE STRESS ANALYSIS REPORT_ELEP.docx
+    │   │   │   └── MPP-RPT-003-R01_PIPE STRESS ANALYSIS REPORT_ELEP.pdf
+    │   │   ├── MPP-RPT-004-R01_PIPE STRESS ANALYSIS REPORT_AKABEL_EAL 08 AUG 22
+    │   │   │   ├── Attachment 1- ASME_B31.3_INPUT LISTING.pdf
+    │   │   │   ├── Attachment 2- ASME_B31.8_INPUT LISTING.pdf
+    │   │   │   ├── Attachment 3- ASME_B31.3_ANALYSIS RESULT.pdf
+    │   │   │   ├── Attachment 4- ASME_B31.8_ANALYSIS RESULT.pdf
+    │   │   │   ├── Attachment 5- SCREEN_SHOT.pdf
+    │   │   │   ├── Attachment 6- ASME_B31.3_STRESS_ISO.pdf
+    │   │   │   ├── Attachment 7- ASME_B31.8_STRESS_ISO.pdf
+    │   │   │   └── MPP-RPT-004-R01_PIPE STRESS ANALYSIS REPORT_AKABEL_EAL 08 AUG 22.pdf
+    │   │   ├── MPP-DSH-003-R01_Datasheet for  Piping Valves_EAL-05 Jul 22.pdf
+    │   │   ├── MPP-DSH-004-R01_Mechanical Data Sheets for Vent Stack_EAL-09 Aug 22.pdf
+    │   │   ├── MPP-DSH-005-R01_Datasheet for Jib Crane_EAL- 05 JUL 22.xlsx
+    │   │   ├── MPP-DSH-006-R01_Data Sheet for Monorail Hoist_EAL-05 JUL 22.pdf
+    │   │   ├── MPP-DWG-005-A01_Equipment Layout BBOU_EAL-16Dec22.pdf
+    │   │   ├── MPP-DWG-006-A01_Equipment Layout Elepa_EAL_16Dec22.pdf
+    │   │   ├── MPP-DWG-007-A01_ Equipment Layout Plan- AKABEL_EAL-16Jan23.pdf
+    │   │   ├── MPP-DWG-008-R01_3D MODEL-BBOU_EAL-12 JUL 22.pdf
+    │   │   ├── MPP-DWG-009-R01_ELEPA-3D MODEL _EAL 7 JUL 22.pdf
+    │   │   ├── MPP-DWG-010-R01_3D Model Akabel_EAL- 22 JUL 22.pdf
+    │   │   ├── MPP-DWG-014-A01_Piping General Arrangement Drawing_EAL-20Dec22.pdf
+    │   │   ├── MPP-DWG-015-A01_ PIPING GA - ELEPA_EAL-16Dec22.pdf
+    │   │   ├── MPP-DWG-016-A01_Piping General Arrangement AKABEL_EAL-16Jan23.pdf
+    │   │   ├── MPP-DWG-017-A01_Key Plan-BBOU_EAL-16Dec22.pdf
+    │   │   ├── MPP-DWG-018-A01_Key Plan-ELEPA_EAL-16Dec.pdf
+    │   │   ├── MPP-DWG-019-A01_Key Plan - AKABEL_EAL-16Jan23.pdf
+    │   │   ├── MPP-DWG-023-R01_Pipe Support Location Drawing - BBOU_EAL- 09 AUG 22.pdf
+    │   │   ├── MPP-DWG-024-R01_Pipe Supports Location Drawing - ELEP_EAL-01 Aug 22.pdf
+    │   │   ├── MPP-DWG-025_Pipe Support  Locations Drawing AKABEL_EAL 28 JUL 22.pdf
+    │   │   ├── MPP-LST-002-R01_Pipe Supports List - BBOU_EAL-01 AUG 22 .pdf
+    │   │   ├── MPP-LST-003-R01_Pipe Support List -ELEPA_EAL-09 AUG 22.pdf
+    │   │   ├── MPP-LST-004-R01_Pipe Support  List AKABEL_EAL-28 JUL 22 .pdf
+    │   │   ├── MPP-LST-005-R01_MTO for Long Lead Item_EAL-01 Aug 22.pdf
+    │   │   ├── MPP-LST-010-R01_Valve List_EAL- 05 JUL 22.pdf
+    │   │   ├── MPP-LST-011-R01-Crititcal Line List- BBOU_EAL-1 AUG 22.pdf
+    │   │   ├── MPP-LST-012-R01-Crititcal Line List- ELEPA_EAL-1 AUG 22.pdf
+    │   │   ├── MPP-LST-013-R01-Critical Line List- AKABEL_EAL-2 Aug 22.pdf
+    │   │   ├── MPP-LST-014-R01-Mechanical Equipment List_EAL- 02 Aug 22.pdf
+    │   │   ├── MPP-LST-015-R01-PIPING MECHANICAL MTO_EAL-03 Aug 22.pdf
+    │   │   ├── MPP-REQ-001-R01_Requisition for Long Lead Items (Bare Pipes)_EAL 08 Aug 22.pdf
+    │   │   ├── MPP-REQ-002-R01_Requisition for Piping Fittings_EAL-08Aug22.pdf
+    │   │   ├── MPP-REQ-003-R01-Requisition for Piping Valves_EAL 05 Aug 22.pdf
+    │   │   ├── MPP-RPT-005-R01_Piping Wall Thickness Calculation_EAL-01Jun22.pdf
+    │   │   ├── MPP-RPT-006-R01-Pig Trap Calculation Note_EAL-27 JUL 22.pdf
+    │   │   ├── MPP-SPC-003-A01_Specification for Piping Valves_EAL-17Dec22.pdf
+    │   │   ├── MPP-SPC-004-A01_Specification for Vent Stack_EAL-20Dec22.pdf
+    │   │   ├── MPP-SPC-005-R01_Piping Class Specification_EAL-01Jun22.pdf
+    │   │   ├── MPP-SPC-007-R01_Specification for Welding_EAL-25 JUL 22.pdf
+    │   │   ├── MPP-SPC-009-R01_Specification for Hydrotest_EAL-10 JUL 22.pdf
+    │   │   ├── MPP-SPC-010-A01_Specification for Pipes and Fittings_EAL-20Dec22.pdf
+    │   │   ├── MPP-SPC-011_R01_Specification for Pipe support-EAL-24 May 22.pdf
+    │   │   ├── MPP-SPC-012-R01_Specification for Bolts and Nuts_EAL 27 JUL 22.pdf
+    │   │   ├── MPP-SPC-013-A01_Specification for Flanges_EAL-20Dec22.pdf
+    │   │   ├── MPP-SPC-014-R01_Specification for Gaskets _EAL 22Jun22.pdf
+    │   │   └── MPP-SPC-015-A01_Specification for Piping_EAL-20Dec22.pdf
     │   ├── 06. Civil
     │   │   ├── CIV-DWG-003-R01_Pile Foundation Layout Drawings-EAL 29 Jun 22.pdf
     │   │   ├── CIV-DWG-004-R01_Platform Sewer System Flow Diagram_EAL- 01 Jul 22.pdf

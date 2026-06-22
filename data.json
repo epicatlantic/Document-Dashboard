@@ -7,22 +7,6 @@
       "type": "folder",
       "items": [
         {
-          "name": "00. Index",
-          "type": "folder",
-          "items": [
-            {
-              "name": "~$1. Invoice 2026-03-13 EA-FCE Laurent Vial Visit to NGA 13-22Mar2026.xlsx",
-              "type": "xlsx",
-              "size": "0.2 KB"
-            },
-            {
-              "name": "~$VIAL LAURENT FCE EXPENSES.xlsx",
-              "type": "xlsx",
-              "size": "0.2 KB"
-            }
-          ]
-        },
-        {
           "name": "01 Summary Reports From Inception",
           "type": "folder",
           "items": [
