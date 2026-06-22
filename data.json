@@ -3,6 +3,82 @@
   "type": "folder",
   "items": [
     {
+      "name": "01. General",
+      "type": "folder",
+      "items": [
+        {
+          "name": "GEN-PHY-001-R02_Design and Operating Philosophy_EAL-23 Sep 22.pdf",
+          "type": "pdf",
+          "size": "1.4 MB"
+        },
+        {
+          "name": "GEN-PRC-001-R02_Performance Guarantee and Test Procedure _EAL-8 June 22.pdf",
+          "type": "pdf",
+          "size": "2.8 MB"
+        },
+        {
+          "name": "GEN-RPT-001-R01_FEED Package Overview_EAL-11 AUG 22 .pdf",
+          "type": "pdf",
+          "size": "14.7 MB"
+        },
+        {
+          "name": "GEN-RPT-002-R04_Basis of Design_EAL-03Nov22.pdf",
+          "type": "pdf",
+          "size": "15.5 MB"
+        },
+        {
+          "name": "GEN-RPT-003-R02-Constructability Study Report_EAL-22 SEP 22.pdf",
+          "type": "pdf",
+          "size": "2.6 MB"
+        },
+        {
+          "name": "GEN-RPT-005-R02_EPC Scope of Work_EAL-03Aug2022-02.pdf",
+          "type": "pdf",
+          "size": "2.5 MB"
+        },
+        {
+          "name": "HSE-PLN-002-R02_Consumables Requirements & Supply Plan_EAL-20 Sep 22.pdf",
+          "type": "pdf",
+          "size": "483.8 KB"
+        },
+        {
+          "name": "MPP-PRC-001-R01_Equipment and Material Preservation Procedure_ EAL-5 Jul 22.pdf",
+          "type": "pdf",
+          "size": "2.8 MB"
+        },
+        {
+          "name": "OPS-PHY-001-A01_Operations and Maintenance Philosophy_EAL-15Sep22.pdf",
+          "type": "pdf",
+          "size": "4.0 MB"
+        },
+        {
+          "name": "OPS-PHY-002_R03_ Spare Parts and Interchangeability Philosophy_EAL-08Jun22.pdf",
+          "type": "pdf",
+          "size": "1.7 MB"
+        },
+        {
+          "name": "OPS-PLN-002_R01_Decommissioning Plan_EAL 13-05-22.pdf",
+          "type": "pdf",
+          "size": "2.2 MB"
+        },
+        {
+          "name": "OPS-PRC-001_R02_Start-up and Commissioning Procedure_EAL-20May22.pdf",
+          "type": "pdf",
+          "size": "2.9 MB"
+        },
+        {
+          "name": "PMC-RPT-003-A01_EPC Cost Estimate_EAL-02Feb23.pdf",
+          "type": "pdf",
+          "size": "2.6 MB"
+        },
+        {
+          "name": "PSE-RPT-001-R01_Upstream Gas Gathering Concept Select & Revalidation Rept_EAL-01Aug22.pdf",
+          "type": "pdf",
+          "size": "10.4 MB"
+        }
+      ]
+    },
+    {
       "name": "BFPCL and DSV Project",
       "type": "folder",
       "items": [
