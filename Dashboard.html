@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Epic Atlantic | Enterprise Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #f3f4f6;
+            --sidebar-bg: rgba(255, 255, 255, 0.7); /* Updated for glass effect */
+            --accent: #095db6;
+            --accent-hover: #074a91;
+            --border: rgba(0, 0, 0, 0.1);
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --item-bg: #ffffff;
+            --item-hover: #f9fafb;
+            --danger: #ef4444;
+            --side-width: 300px;
+            --main-gradient: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg: #111827;
+            --sidebar-bg: rgba(31, 41, 55, 0.7); /* Updated for glass effect */
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --item-bg: #374151;
+            --item-hover: #4b5563;
+            --main-gradient: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+        }
+
+        /* 4. Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb { background: #4b5563; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--main-gradient); /* 5. Glass Background */
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 5. Glass Sidebar */
+        nav {
+            width: var(--side-width);
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+            z-index: 100;
+        }
+
+       .nav-header {
+    padding: 24px 16px; /* Reduced side padding to bring search closer to the edge */
+    border-bottom: 1px solid var(--border);
+}
+        #companyLogo { max-width: 140px; margin: 0 auto 20px; display: block; }
+        
+        #search {
+            width: 100%;
+    margin-top: 10px; /* Gives it some breathing room from the logo */
+            padding: 10px 14px 10px 35px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 10px center;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .explorer-container { flex: 1; overflow-y: auto; padding: 16px; }
+
+        .item {
+            background: var(--item-bg);
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+            animation: slideInRight 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+
+        .item:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-color: var(--accent); }
+        .item.active { background: var(--accent); color: white !important; }
+        .item.active .meta, .item.active .item-date { color: rgba(255,255,255,0.8); }
+
+        .item .icon { font-size: 18px; width: 24px; text-align: center; }
+        .item .details { display: flex; flex-direction: column; }
+        .item .name { font-size: 14px; font-weight: 500; }
+        
+        .meta-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .meta { font-size: 11px; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 12px; }
+        [data-theme="dark"] .meta { background: rgba(255,255,255,0.1); }
+
+        #preview { flex: 1; display: flex; flex-direction: column; position: relative; }
+        .preview-toolbar { padding: 12px 24px; background: var(--sidebar-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; backdrop-filter: blur(12px); }
+        #previewBox { flex: 1; margin: 24px; background: #d1d5db; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+
+        button { padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border); background: var(--item-bg); color: var(--text-main); cursor: pointer; font-size: 13px; }
+        .btn-primary { background: var(--accent); color: white; border: none; }
+        .btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
+
+        .breadcrumb-item:hover { color: var(--accent); text-decoration: underline; }
+    </style>
+</head>
+<body data-theme="light">
+
+
+<nav id="sidebar">
+    <div class="nav-header">
+        <a href="index.html">
+            <img id="companyLogo" src="logo.png" alt="Epic Atlantic">
+        </a>
+        <input type="text" id="search" placeholder="Search files..." onkeyup="doSearch()">
+    </div>
+    <div class="explorer-container" id="explorer"></div>
+</nav>
+
+<section id="preview">
+    <div class="preview-toolbar">
+        <button id="closeBtn" class="btn-danger" onclick="closePreview()">✕ Close</button>
+        <button onclick="toggleTheme()">🌗</button>
+        <a id="downloadBtn" style="display:none;"><button class="btn-primary">Download</button></a>
+        <button onclick="toggleFullscreen()">Expand</button>
+    </div>
+    <div id="previewBox">
+        <div id="loader" class="spinner" style="display:none;"></div>
+        <p id="placeholder" style="color: var(--text-muted); font-weight: 500;">Select a document to begin</p>
+    </div>
+</section>
+
+<script>
+let rootData = {};      
+let currentFolder = {}; 
+let history = [];       
+let pathStack = []; 
+
+async function loadData() {
+    try {
+        const res = await fetch("data.json");
+        rootData = await res.json();
+        currentFolder = rootData;
+        render();
+    } catch (e) { console.error("Load failed", e); }
+}
+
+// 1. Automatic Icons based on type
+function getFileIcon(type) {
+    if (!type) return '<i class="fa-solid fa-folder" style="color: #fca311;"></i>';
+    switch (type.toLowerCase()) {
+        case 'folder': return '<i class="fa-solid fa-folder" style="color: #fca311;"></i>';
+        case 'pdf':    return '<i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i>';
+        case 'xlsx': case 'xls': case 'csv': return '<i class="fa-solid fa-file-excel" style="color: #16a34a;"></i>';
+        case 'docx': case 'doc': return '<i class="fa-solid fa-file-word" style="color: #2563eb;"></i>';
+        case 'pptx': case 'ppt': return '<i class="fa-solid fa-file-powerpoint" style="color: #ea580c;"></i>';
+        case 'png': case 'jpg': case 'jpeg': return '<i class="fa-solid fa-file-image" style="color: #9333ea;"></i>';
+        default: return '<i class="fa-solid fa-file-lines" style="color: #64748b;"></i>';
+    }
+}
+
+// 2. Search Logic
+function doSearch() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const container = document.getElementById('explorer');
+    
+    if (q === "") {
+        render(); // If search is empty, go back to normal folder view
+        return;
+    }
+
+    // Clear explorer to show search results
+    container.innerHTML = `<div style="font-size:10px; color:var(--text-muted); font-weight:bold; margin-bottom:12px;">SEARCH RESULTS</div>`;
+    
+    const results = [];
+    
+    // Recursive helper to find files in the JSON tree
+    function searchDeep(folder) {
+        if (!folder.items) return;
+        folder.items.forEach(item => {
+            if (item.name.toLowerCase().includes(q)) {
+                results.push(item);
+            }
+            if (item.type === "folder") {
+                searchDeep(item);
+            }
+        });
+    }
+
+    searchDeep(rootData);
+
+    if (results.length > 0) {
+        results.forEach((item, i) => {
+            const div = createItem(item);
+            div.style.animationDelay = `${i * 0.05}s`;
+            div.onclick = () => {
+                showPreview(item);
+                document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+                div.classList.add('active');
+            };
+            container.appendChild(div);
+        });
+    } else {
+        container.insertAdjacentHTML('beforeend', '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No matches found.</p>');
+    }
+}
+
+// 3. Clickable Breadcrumbs
+function renderBreadcrumbs(container) {
+    const pathLbl = document.createElement('div');
+    pathLbl.style = "font-size:10px; color:var(--text-muted); font-weight:bold; margin-bottom:12px; padding-left:4px;";
+    
+    const rootSpan = document.createElement('span');
+    rootSpan.innerText = "ROOT";
+    rootSpan.className = "breadcrumb-item";
+    rootSpan.style.cursor = "pointer";
+    rootSpan.onclick = goHome;
+    pathLbl.appendChild(rootSpan);
+
+    pathStack.forEach((name, index) => {
+        const sep = document.createTextNode(" > ");
+        const span = document.createElement('span');
+        span.innerText = name.toUpperCase();
+        span.className = "breadcrumb-item";
+        span.style.cursor = "pointer";
+        span.onclick = () => jumpToPath(index);
+        pathLbl.appendChild(sep);
+        pathLbl.appendChild(span);
+    });
+    container.appendChild(pathLbl);
+}
+
+function jumpToPath(index) {
+    while (pathStack.length > index + 1) {
+        goBack();
+    }
+}
+
+function render() {
+    const container = document.getElementById('explorer');
+    if (!container) return;
+    container.innerHTML = "";
+
+    const headerRow = document.createElement('div');
+    headerRow.style = "display:flex; gap:8px; margin-bottom:16px; align-items:center; justify-content: space-between;";
+    const leftNav = document.createElement('div');
+    leftNav.style = "display:flex; gap:4px; align-items:center;";
+    
+    if (history.length > 0) {
+        const back = document.createElement('button');
+        back.innerHTML = "← Back";
+        back.onclick = goBack;
+        leftNav.appendChild(back);
+    }
+    headerRow.appendChild(leftNav);
+    container.appendChild(headerRow);
+
+    renderBreadcrumbs(container);
+
+    if (currentFolder.items && currentFolder.items.length > 0) {
+        currentFolder.items.forEach((item, i) => {
+            if (currentFolder.preview && item.name === currentFolder.preview.split('/').pop()) return;
+
+            const div = createItem(item);
+            div.style.animationDelay = `${i * 0.05}s`;
+            div.onclick = () => {
+                if (item.type === "folder") {
+                    history.push(currentFolder);
+                    pathStack.push(item.name);
+                    currentFolder = item;
+                    render();
+                    showPreview(item);
+                } else {
+                    showPreview(item);
+                    document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+                    div.classList.add('active');
+                }
+            };
+            container.appendChild(div);
+        });
+    }
+}
+
+function createItem(item) {
+    const div = document.createElement('div');
+    div.className = `item ${item.type || 'folder'}`;
+    const metaText = item.type === 'folder' ? `${item.items?.length || 0} items` : (item.size || '---');
+
+    div.innerHTML = `
+        <div class="icon">${getFileIcon(item.type)}</div>
+        <div class="details">
+            <span class="name">${item.name}</span>
+            <div class="meta-row">
+                <span class="meta">${metaText}</span>
+                <span class="item-date">${item.date || "Apr 30, 2026"}</span>
+            </div>
+        </div>
+    `;
+    return div;
+}
+
+function showPreview(doc) {
+    const box = document.getElementById('previewBox');
+    const loader = document.getElementById('loader');
+    const dlBtn = document.getElementById('downloadBtn');
+    
+    loader.style.display = "block";
+    document.getElementById('placeholder').style.display = "none";
+    // Clear out previous iframes, imgs, and fallback text
+    box.querySelectorAll('iframe, img, div.fallback-msg').forEach(el => el.remove());
+
+    let fileUrl = "";
+    
+    if (doc.type === "folder" && doc.preview) {
+        fileUrl = new URL(doc.preview, window.location.href).href;
+        box.insertAdjacentHTML('beforeend', `<img src="${fileUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" onload="hideLoader()">`);
+        dlBtn.style.display = "none";
+    } else if (doc.type !== "folder") {
+        let fullPath = `docs/${pathStack.join('/')}/${doc.name}`.replace(/\/+/g, '/');
+        fileUrl = new URL(fullPath, window.location.href).href;
+        
+        dlBtn.style.display = "inline-block";
+        dlBtn.href = fileUrl;
+        
+        // Determine the actual file extension
+        const ext = doc.name.split('.').pop().toLowerCase();
+        const officeExts = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
+        const imageExts = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
+
+        if (doc.type === "pdf" || ext === "pdf") {
+            // PDF Viewer
+            box.insertAdjacentHTML('beforeend', `<iframe src="${fileUrl}" width="100%" height="100%" frameborder="0" onload="hideLoader()"></iframe>`);
+        } 
+        else if (officeExts.includes(ext)) {
+            // Microsoft Office Online Viewer for Word, Excel, PowerPoint
+            const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`;
+            box.insertAdjacentHTML('beforeend', `<iframe src="${officeViewerUrl}" width="100%" height="100%" frameborder="0" onload="hideLoader()"></iframe>`);
+        } 
+        else if (imageExts.includes(ext)) {
+            // Image Viewer
+            box.insertAdjacentHTML('beforeend', `<img src="${fileUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" onload="hideLoader()">`);
+        } 
+        else {
+            // Fallback for unknown file types (e.g., zip files, plain text)
+            hideLoader();
+            box.insertAdjacentHTML('beforeend', `
+                <div class="fallback-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; opacity:0.6;">
+                    <div style="font-size:40px; margin-bottom:10px;">📄</div>
+                    <p>Preview not available. Click Download to view.</p>
+                </div>
+            `);
+        }
+    } else {
+        hideLoader();
+        document.getElementById('placeholder').style.display = "block";
+    }
+}
+
+function hideLoader() { document.getElementById('loader').style.display = "none"; }
+function goHome() { currentFolder = rootData; history = []; pathStack = []; render(); }
+function goBack() { if (history.length > 0) { currentFolder = history.pop(); pathStack.pop(); render(); } }
+function toggleTheme() { document.body.dataset.theme = document.body.dataset.theme === "dark" ? "light" : "dark"; }
+function toggleFullscreen() { const b = document.getElementById("previewBox"); if (!document.fullscreenElement) b.requestFullscreen(); else document.exitFullscreen(); }
+
+loadData();
+</script>
+</body>
+</html>

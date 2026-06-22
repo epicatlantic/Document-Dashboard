@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPIC ATLANTIC | Project Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg-top: #ffffff;
+            --bg-bottom: #f1f5f9;
+            --primary-text: #faa811;
+            --secondary-text: #64748b;
+            --accent-blue: #0284c7; /* Professional corporate blue */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(15, 23, 42, 0.08);
+            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            /* Light Gradient */
+            background: radial-gradient(circle at top right, var(--bg-top), var(--bg-bottom));
+            color: var(--primary-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* overflow: hidden; removed to allow scrolling */
+        }
+
+        /* 1. Professional Light Glass Header */
+        header {
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        .logo-box { display: flex; align-items: center; gap: 15px; }
+        .logo-box img { width: 40px; }
+        .logo-box h1 { 
+            font-size: 1.2rem; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            margin: 0; 
+            color: var(--primary-text);
+        }
+
+        .header-status { font-size: 0.8rem; color: var(--secondary-text); letter-spacing: 1px; }
+
+        /* 2. Hero Slideshow Container */
+        .hero-section {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .slideshow-container {
+            width: 100%;
+            max-width: 1100px;
+            height: 520px;
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--card-shadow);
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc; /* Very light grey background for images */
+        }
+
+        .slide.active { opacity: 1; }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Keeps maps readable */
+        }
+
+        /* Slide Nav Arrows */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            color: var(--secondary-text);
+            font-size: 24px;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 15;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        /* 3. Light Glass Floating Overlay */
+        .hero-overlay {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 25px 50px;
+            border-radius: 100px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-overlay h2 {
+            font-size: 0.85rem;
+            margin: 0 0 12px 0;
+            color: var(--secondary-text);
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: var(--accent-blue);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Pagination Dots */
+        .dot-container {
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
+            text-align: center;
+            z-index: 12;
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            margin: 0 6px;
+            background-color: #cbd5e1;
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot.active { 
+            background-color: var(--accent-blue); 
+            width: 24px; 
+            border-radius: 4px; 
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            .header-status { display: none; }
+            .hero-overlay { width: 80%; padding: 20px; bottom: 40px; border-radius: 24px; }
+            .nav-btn { width: 40px; height: 40px; font-size: 18px; }
+            .prev-btn { left: 10px; }
+            .next-btn { right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-box">
+            <img src="logo.png" alt="Epic Logo">
+            <h1>Epic Atlantic</h1>
+        </div>
+        <div class="header-status">PROJECT MANAGEMENT PORTAL</div>
+    </header>
+
+    <main class="hero-section">
+        <div class="slideshow-container">
+            <div class="slide active"><img src="Airstrip.PNG"></div>
+            <div class="slide"><img src="Picture1.png"></div>
+            <div class="slide"><img src="Burnt ships.PNG"></div>
+            <div class="slide"><img src="Loading 3.png"></div>
+            <div class="slide"><img src="Picture2.png"></div>
+            <div class="slide"><img src="Picture4.png"></div>
+            <div class="slide"><img src="Akabel coordinates.PNG"></div>
+            
+            <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">&#10094;</button>
+            <button class="nav-btn next-btn" id="nextBtn" aria-label="Next slide">&#10095;</button>
+
+            <div class="dot-container" id="dotGroup"></div>
+        </div>
+
+        <div class="hero-overlay">
+            <h2>BRASS FERTILIZER METHANOL PRODUCTION PROJECT</h2>
+            <a href="Dashboard.html" class="dashboard-btn">Document Dashboard</a>
+        </div>
+    </main>
+
+    <script>
+        let currentSlide = 0;
+        let slideInterval;
+        const slides = document.querySelectorAll('.slide');
+        const dotGroup = document.getElementById('dotGroup');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Dynamically create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if(i === 0) dot.classList.add('active');
+            dot.onclick = () => {
+                goToSlide(i);
+                resetTimer();
+            };
+            dotGroup.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length; // Handles negative values smoothly
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        // Arrow click events
+        nextBtn.onclick = () => {
+            nextSlide();
+            resetTimer();
+        };
+
+        prevBtn.onclick = () => {
+            prevSlide();
+            resetTimer();
+        };
+
+        // Keyboard navigation (optional but great for user experience)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowLeft") {
+                prevSlide();
+                resetTimer();
+            } else if (e.key === "ArrowRight") {
+                nextSlide();
+                resetTimer();
+            }
+        });
+
+        // Auto play timer controls
+        function startTimer() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function resetTimer() {
+            clearInterval(slideInterval);
+            startTimer(); // Restarts the 5s clock so it doesn't change immediately after clicking
+        }
+
+        // Start the slider auto-rotation
+        startTimer();
+    </script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Epic Atlantic Admin | Enterprise Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            /* Professional Palette */
+            --bg: #f3f4f6;           /* Soft light grey stage */
+            --sidebar-bg: #ffffff;   /* Clean white sidebar */
+            --accent: #095db6;       /* Brand Blue */
+            --accent-hover: #074a91;
+            --border: #e5e7eb;       /* Subtle dividers */
+            --text-main: #111827;    /* Near black for text */
+            --text-muted: #6b7280;   /* Slate grey for meta */
+            --item-bg: #ffffff;
+            --item-hover: #f9fafb;
+            --danger: #ef4444;       /* For Close/Error buttons */
+            --side-width: 300px;
+        }
+
+#explorer {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    z-index: 10; /* Ensures it stays above the card click area */
+}
+
+.delete-btn:hover {
+    background: #ff4d4d;
+    color: white;
+}
+
+
+        [data-theme="dark"] {
+            --bg: #111827;
+            --sidebar-bg: #1f2937;
+            --border: #374151;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --item-bg: #374151;
+            --item-hover: #4b5563;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar UI */
+        nav {
+            width: var(--side-width);
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+            z-index: 100;
+            transition: transform 0.3s ease;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.02);
+        }
+
+        .nav-header { padding: 24px; border-bottom: 1px solid var(--border); }
+        
+        #companyLogo {
+            max-width: 140px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        #search {
+    width: 100%;
+    padding: 10px 14px 10px 35px; /* Added 35px padding on the left */
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 10px center;
+    color: var(--text-main);
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+        #search:focus { border-color: var(--accent); }
+
+        .explorer-container { flex: 1; overflow-y: auto; padding: 16px; }
+
+        /* Modern List Items */
+        .item {
+            background: var(--item-bg);
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+        .item:hover {
+            transform: translateY(-1px);
+            background: var(--item-hover);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .item.active {
+            background: var(--accent);
+            color: white !important;
+            border-color: var(--accent);
+        }
+        .item.active .text-muted, .item.active .name { color: white; }
+
+        .item .icon { font-size: 20px; }
+        .item .details { display: flex; flex-direction: column; }
+        .item .name { font-size: 14px; font-weight: 500; }
+        .item .meta { font-size: 11px; color: var(--text-muted); }
+
+        /* Preview Area */
+        #preview { flex: 1; display: flex; flex-direction: column; position: relative; }
+
+        .preview-toolbar {
+            padding: 12px 24px;
+            background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+.item .meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.05); /* Light grey pill */
+    padding: 2px 8px;
+    border-radius: 12px; /* Rounded pill shape */
+    width: fit-content;
+    margin-top: 4px;
+    font-weight: 500;
+}
+/* File Type Colors */
+.item.pdf .icon { color: #e11d48; }    /* Red */
+.item.docx .icon { color: #2563eb; }   /* Blue */
+.item.xlsx .icon { color: #16a34a; }   /* Green */
+.item.pptx .icon { color: #ea580c; }   /* Orange */
+.item.folder .icon { color: #d97706; } /* Amber */
+
+/* Metadata Styling */
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.meta-divider {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+.item-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+[data-theme="dark"] .item .meta {
+    background: rgba(255,255,255,0.1);
+}
+
+.item.active .meta {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+        #previewBox {
+            flex: 1;
+            margin: 24px;
+            background: #d1d5db; /* "Desk" surface */
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Buttons */
+        button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--sidebar-bg);
+            color: var(--text-main);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        button:hover { background: var(--bg); }
+        .btn-primary { background: var(--accent); color: white; border: none; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
+        .btn-danger:hover { background: #fecaca; }
+
+        /* Spinner */
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: var(--accent);
+            animation: spin 0.8s linear infinite;
+            position: absolute;
+            z-index: 5;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Mobile Adjustments */
+        #menuToggle {
+            display: none;
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            z-index: 1000;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            nav { position: absolute; left: 0; width: 100%; height: 100%; }
+            body.preview-open nav { transform: translateX(-100%); }
+            #menuToggle { display: block; }
+            #previewBox { margin: 10px; }
+            .preview-toolbar { padding-left: 60px; }
+            #closeBtn { display: block !important; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+<button id="menuToggle" onclick="showSidebar()">☰</button>
+
+<nav id="sidebar">
+    <div class="nav-header">
+        <img id="companyLogo" src="logo.png" alt="Epic Atlantic">
+        <input type="text" id="search" placeholder="Search files..." onkeyup="doSearch()">
+    </div>
+    
+    <div class="explorer-container" id="explorer"></div>
+    <div style="padding: 20px; border-bottom: 1px solid var(--border);">
+    <label style="color: var(--accent); font-weight: bold; cursor: pointer;">
+        + UPLOAD NEW FILE
+        <input type="file" id="fileInput" style="display:none" onchange="uploadFile()">
+    </label>
+</div>
+</nav>
+
+<section id="preview">
+    <div class="preview-toolbar">
+        <button id="closeBtn" class="btn-danger" onclick="closePreview()">✕ Close</button>
+        <button onclick="toggleTheme()">🌗</button>
+        <a id="downloadBtn" style="display:none;"><button class="btn-primary">Download</button></a>
+        <button onclick="toggleFullscreen()">Expand</button>
+    </div>
+    
+    <div id="previewBox">
+        <div id="loader" class="spinner" style="display:none;"></div>
+        <p id="placeholder" style="color: var(--text-muted); font-weight: 500;">Select a document to begin</p>
+    </div>
+</section>
+
+<script>
+(function checkPassword() {
+    const pass = prompt("Enter Admin Password:");
+    if (pass !== "Epic2026") {
+        alert("Access Denied");
+        window.location.href = "index.html";
+    }
+})();
+
+let rootData = { items: [] };      
+let currentFolder = { items: [] }; 
+let history = [];       
+let pathStack = []; 
+
+// CHANGED: Now fetches from the server's live folder
+async function loadData() {
+    try {
+        const res = await fetch("/list-files"); // Calls the new route we made in server.js
+        const data = await res.json();
+        rootData = data;            
+        currentFolder = data;       
+        render();                   
+    } catch (e) { console.error("Load failed", e); }
+}
+
+async function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    if (!fileInput.files[0]) return;
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    try {
+        const response = await fetch('/upload', { method: 'POST', body: formData });
+        if (response.ok) { loadData(); } // Refresh the list without reloading the whole page
+    } catch (err) { console.error("Upload failed:", err); }
+}
+
+async function deleteFile(filename, event) {
+    event.stopPropagation();
+    if (confirm(`Delete ${filename}?`)) {
+        await fetch(`/delete/${filename}`, { method: 'DELETE' });
+        loadData(); // Refresh the list
+    }
+}
+
+function createItem(item) {
+    const div = document.createElement('div');
+    const typeClass = item.type ? item.type.toLowerCase() : 'folder';
+    div.className = `item ${typeClass}`;
+    div.style.position = 'relative';
+
+    const icon = item.type === "pdf" ? "📄" : (item.type === "folder" ? "📁" : "🖼️");
+    const dateModified = item.date || "Just now";
+
+    div.innerHTML = `
+        <button class="delete-btn" onclick="deleteFile('${item.name}', event)">DELETE</button>
+        <div class="icon">${icon}</div>
+        <div class="details">
+            <span class="name" title="${item.name}">${item.name}</span>
+            <div class="meta-row">
+                <span class="meta">${item.size || 'Folder'}</span>
+                <span class="meta-divider">•</span>
+                <span class="item-date">${dateModified}</span>
+            </div>
+        </div>
+    `;
+    return div;
+}
+
+function render() {
+    const container = document.getElementById('explorer');
+    if (!container) return;
+    container.innerHTML = "";
+
+    // 1. Create the Navigation & Sort Header Row
+    const headerRow = document.createElement('div');
+    headerRow.style = "display:flex; gap:8px; margin-bottom:16px; align-items:center; justify-content: space-between;";
+    
+    // Left Side: Home & Back Buttons
+    const leftNav = document.createElement('div');
+    leftNav.style = "display:flex; gap:4px; align-items:center;";
+    
+    if (history.length > 0) {
+        const back = document.createElement('button');
+        back.innerHTML = "← Back";
+        back.onclick = goBack;
+        leftNav.appendChild(back);
+    }
+
+    const home = document.createElement('button');
+    home.innerHTML = "🏠";
+    home.onclick = goHome;
+    leftNav.appendChild(home);
+    headerRow.appendChild(leftNav);
+
+    // Right Side: Sort Dropdown
+    const sortSelect = document.createElement('select');
+    sortSelect.id = "sortDropdown"; // Added an ID for easy reference
+    sortSelect.style = "font-size: 11px; padding: 4px; border-radius: 4px; border: 1px solid var(--border); background: var(--sidebar-bg); color: var(--text-main); cursor: pointer;";
+    sortSelect.innerHTML = `
+        <option value="" disabled selected>Sort By</option>
+        <option value="name">Name (A-Z)</option>
+        <option value="size">Size (Large-Small)</option>
+    `;
+    sortSelect.onchange = (e) => sortItems(e.target.value);
+    headerRow.appendChild(sortSelect);
+
+    container.appendChild(headerRow);
+
+    // 2. Breadcrumb Label
+    const pathLbl = document.createElement('div');
+    pathLbl.style = "font-size:10px; color:var(--text-muted); font-weight:bold; text-transform:uppercase; margin-bottom:12px; padding-left:4px;";
+    pathLbl.innerText = pathStack.length > 0 ? "Root > " + pathStack.join(" > ") : "Root";
+    container.appendChild(pathLbl);
+
+    // 3. Loop through and Render Items
+    // Safety check: Make sure currentFolder.items exists before looping
+    if (currentFolder && currentFolder.items && currentFolder.items.length > 0) {
+        currentFolder.items.forEach(item => {
+            const div = createItem(item); // Uses your existing createItem function
+            div.onclick = () => {
+                if (item.type === "folder") {
+                    history.push(currentFolder);
+                    pathStack.push(item.name);
+                    currentFolder = item;
+                    render();
+                } else {
+                    showPreview(item);
+                    if (window.innerWidth <= 768) document.body.classList.add('preview-open');
+                    document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+                    div.classList.add('active');
+                }
+            };
+            container.appendChild(div);
+        });
+    } else {
+        // Show this if the folder is actually empty
+        const emptyMsg = document.createElement('p');
+        emptyMsg.style = "font-size:12px; color:var(--text-muted); padding:20px; text-align:center;";
+        emptyMsg.innerText = "No files found in this folder.";
+        container.appendChild(emptyMsg);
+    }
+}
+
+
+function toggleSepia() {
+    const box = document.getElementById('previewBox');
+    box.style.filter = box.style.filter === 'sepia(0.5)' ? 'none' : 'sepia(0.5)';
+}
+
+function showPreview(doc) {
+    const box = document.getElementById('previewBox');
+    const loader = document.getElementById('loader');
+    loader.style.display = "block";
+    document.getElementById('placeholder').style.display = "none";
+    box.querySelectorAll('iframe, img').forEach(el => el.remove());
+
+    const fileUrl = `/docs/${doc.name}`; // Correct path to your server's docs folder
+
+    let html = "";
+    if (doc.type === "pdf") {
+        html = `<iframe src="${fileUrl}" width="100%" height="100%" frameborder="0" onload="hideLoader()"></iframe>`;
+    } else {
+        html = `<img src="${fileUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" onload="hideLoader()">`;
+    }
+    box.insertAdjacentHTML('beforeend', html);
+}
+function sortItems(criteria) {
+    if (!currentFolder.items) return;
+
+    if (criteria === "name") {
+        currentFolder.items.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (criteria === "size") {
+        currentFolder.items.sort((a, b) => {
+            // Helper to convert "1.2 MB" or "500 KB" into raw bytes for comparison
+            const getBytes = (str) => {
+                if (!str) return 0;
+                const num = parseFloat(str);
+                if (str.includes('MB')) return num * 1024 * 1024;
+                if (str.includes('KB')) return num * 1024;
+                return num;
+            };
+            return getBytes(b.size) - getBytes(a.size); // Largest first
+        });
+    }
+    render(); // Re-draw the list with the new order
+}
+function hideLoader() { document.getElementById('loader').style.display = "none"; }
+
+function closePreview() {
+    document.body.classList.remove('preview-open');
+    const box = document.getElementById('previewBox');
+    box.querySelectorAll('iframe, img').forEach(el => el.remove());
+    document.getElementById('placeholder').style.display = "block";
+    document.getElementById('downloadBtn').style.display = "none";
+    document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+}
+
+function showSidebar() { document.body.classList.remove('preview-open'); }
+function goHome() { currentFolder = rootData; history = []; pathStack = []; render(); }
+function goBack() { if (history.length > 0) { currentFolder = history.pop(); pathStack.pop(); render(); } }
+function toggleTheme() { document.body.dataset.theme = document.body.dataset.theme === "dark" ? "light" : "dark"; }
+function toggleFullscreen() {
+    const b = document.getElementById("previewBox");
+    if (!document.fullscreenElement) b.requestFullscreen(); else document.exitFullscreen();
+}
+
+loadData();
+</script>
+</body>
+</html>
