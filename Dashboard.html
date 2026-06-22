@@ -374,6 +374,8 @@ function showPreview(doc) {
     }
 }
 
+
+
 function hideLoader() { document.getElementById('loader').style.display = "none"; }
 function goHome() { currentFolder = rootData; history = []; pathStack = []; render(); }
 function goBack() { if (history.length > 0) { currentFolder = history.pop(); pathStack.pop(); render(); } }
