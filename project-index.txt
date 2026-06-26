@@ -284,7 +284,22 @@ docs/
 │   │   ├── EA-BFPCL-GGPL-FEED-RPT-PHY-005-R02_Pipeline Abadonment Philosophy Rev 09May2026.docx
 │   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 01May2026.docx
 │   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 02May2026.docx
-│   │   └── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 04May2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 04May2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 26Apr2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 27Apr2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 28Apr2026_mz.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 28Apr2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 28pmApr2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 30Apr2026.docx
+│   │   ├── GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Revised 28pmApr2026.docx
+│   │   ├── OKNU Rev 10May2026.docx
+│   │   ├── OKNU_Decommissioning_Pack.pptx
+│   │   ├── OKNU_Decommissioning_Pack27Apr26.pptx
+│   │   ├── OKNU-BBOU-AKAB Rev 10May2026.docx
+│   │   ├── PL Aband Scope Definition Rev 17Apr2026.docx
+│   │   ├── PL Aband Scope Definition Rev 24Apr2026 (AutoRecovered).docx
+│   │   ├── PL Aband Scope Definition Rev 24Apr2026.docx
+│   │   └── Restructured D n A Schedule 10May2026.docx
 │   ├── 06. FEED (BBOU-ELEP-AKAB) Pipilines
 │   │   ├── 01. EA-BFPCL-GPMC-GGPL-FEED-PSE-SPC-001_Slug Catcher Preliminary Specification.docx
 │   │   └── 01. PSE-SPC-001-R01_Slug Catcher Preliminary Specification_TCE comment-EAL 07 JUL 22.pdf
