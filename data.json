@@ -1364,6 +1364,71 @@
               "name": "01. RFQ & Epic Response - Pipeline FEED RFQ Package - Key Documents.rar",
               "type": "rar",
               "size": "5.0 MB"
+            },
+            {
+              "name": "BBOU Rev 10May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "Comprehensive Decommissioning Proposal aligned with your FEED scope 24Apr2026.docx",
+              "type": "docx",
+              "size": "76.4 KB"
+            },
+            {
+              "name": "EA-BFPCL-DSV-GGPL-FEED-GEN-PHY-006-R01_BBOU-ELEP-AKAB Pipeline D & A Philosophy Rev 09May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "EA-BFPCL-DSV-GGPL-FEED-GEN-PHY-007-R01_OKNU-BBOU Pipeline D & A Philosophy Rev 11May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "EA-BFPCL-DSV-GGPL-FEED-GEN-PHY-007-R01_OKNU-BBOU Pipeline D & A Philosophy Rev 11May2026.pdf",
+              "type": "pdf",
+              "size": "6.1 MB"
+            },
+            {
+              "name": "EA-BFPCL-GGPL-FEED-GEN-PHY-006-R01_Pipeline D & A Philosophy BBOU-ELEP-AKAB Rev 09May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "EA-BFPCL-GGPL-FEED-GEN-PHY-007-R01_Pipeline D & A Philosophy OKNU-BBOU Rev 09May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "EA-BFPCL-GGPL-FEED-GEN-PHY-007-R01_Pipeline D & A Philosophy OKNU-BBOU Rev 10May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "EA-BFPCL-GGPL-FEED-RPT-PHY-005-R02_Pipeline Abadonment Philosophy Rev 04May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "EA-BFPCL-GGPL-FEED-RPT-PHY-005-R02_Pipeline Abadonment Philosophy Rev 09May2026.docx",
+              "type": "docx",
+              "size": "4.4 MB"
+            },
+            {
+              "name": "GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 01May2026.docx",
+              "type": "docx",
+              "size": "4.1 MB"
+            },
+            {
+              "name": "GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 02May2026.docx",
+              "type": "docx",
+              "size": "4.1 MB"
+            },
+            {
+              "name": "GEN-RPT-005-R01_FEED Pipeline Abadonment Philosophy Rev 04May2026.docx",
+              "type": "docx",
+              "size": "4.1 MB"
             }
           ]
         },
@@ -1485,6 +1550,67 @@
               "size": "12.1 MB"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "Data Room - EA",
+      "type": "folder",
+      "items": [
+        {
+          "name": "01 FEED Scope Definition Rev 25May2026.docx",
+          "type": "docx",
+          "size": "7.6 MB"
+        },
+        {
+          "name": "01. BFD & Battery Limit Schematics OKNU-BBOU-ELEP-AKAB Gas Suppy Network - 2026-06-25.pptx",
+          "type": "pptx",
+          "size": "1.0 MB"
+        },
+        {
+          "name": "01. EPC Scope of Work - Gas Gathering Pipelines  Associated Infrastructure - Update 31Mar2026.docx",
+          "type": "docx",
+          "size": "3.7 MB"
+        },
+        {
+          "name": "02. FEED Scope & Financial Dimension for DSV 20 inch x 85km OKNU-BBOU PL to Brass Gas Hub at Akabel 22Jun2026.docx",
+          "type": "docx",
+          "size": "12.5 MB"
+        },
+        {
+          "name": "02. SoW Checklists  Specifications - Gas Pipeline Manifolds  Assoc Infra 31Mar2026.xlsx",
+          "type": "xlsx",
+          "size": "90.1 KB"
+        },
+        {
+          "name": "02. Techno-Commercial Scope and Financial Dimension for the DSV OKNU-BBOU Pipeline FEED 24Jun2026.docx",
+          "type": "docx",
+          "size": "12.8 MB"
+        },
+        {
+          "name": "03. Exhibits - Scope of Work Specifications.zip",
+          "type": "zip",
+          "size": "1.9 MB"
+        },
+        {
+          "name": "BFPCL OKNU-ELEP FEED Commercial WBS & CTR Breakdown 22Jun2026.xlsx",
+          "type": "xlsx",
+          "size": "142.4 KB"
+        },
+        {
+          "name": "Historical Update of Probabilistic Schedule BPCL Methanol Project 23Mar2026 (002).xlsx",
+          "type": "xlsx",
+          "size": "120.8 KB"
+        },
+        {
+          "name": "Issues Log Origin.docx",
+          "type": "docx",
+          "size": "22.5 KB"
+        },
+        {
+          "name": "MTO & Bill of Quantities (BOQ) for OKNU-BBOU Gas Pipeline 25Jun26.xlsx",
+          "type": "xlsx",
+          "size": "33.3 KB"
         }
       ]
     }
