@@ -34,6 +34,10 @@
             --main-gradient: linear-gradient(135deg, #111827 0%, #1f2937 100%);
         }
 
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         /* 4. Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -69,6 +73,7 @@
         #companyLogo { max-width: 140px; margin: 0 auto 20px; display: block; }
         
         #search {
+            box-sizing: border-box;
             width: 100%;
     margin-top: 10px; /* Gives it some breathing room from the logo */
             padding: 10px 14px 10px 35px;
@@ -78,6 +83,15 @@
             color: var(--text-main);
             font-size: 14px;
             outline: none;
+        }
+
+        /* File count badge lives under search, in the sidebar */
+        .file-count-badge {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 500;
         }
 
         .explorer-container { flex: 1; overflow-y: auto; padding: 16px; }
@@ -112,7 +126,31 @@
         [data-theme="dark"] .meta { background: rgba(255,255,255,0.1); }
 
         #preview { flex: 1; display: flex; flex-direction: column; position: relative; }
-        .preview-toolbar { padding: 12px 24px; background: var(--sidebar-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; backdrop-filter: blur(12px); }
+
+        .preview-toolbar {
+            padding: 12px 24px;
+            background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            backdrop-filter: blur(12px);
+        }
+        .toolbar-path {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toolbar-path .file-name { color: var(--text-main); font-weight: 600; }
+        .toolbar-actions { display: flex; gap: 12px; flex-shrink: 0; }
+
         #previewBox { flex: 1; margin: 24px; background: #d1d5db; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
 
         button { padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border); background: var(--item-bg); color: var(--text-main); cursor: pointer; font-size: 13px; }
@@ -120,6 +158,82 @@
         .btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
 
         .breadcrumb-item:hover { color: var(--accent); text-decoration: underline; }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            opacity: 0.7;
+        }
+        .empty-state i { font-size: 48px; color: var(--text-muted); }
+        .empty-state p { color: var(--text-muted); font-weight: 500; margin: 0; }
+        .empty-state .empty-stats { font-size: 12px; color: var(--text-muted); opacity: 0.8; }
+
+        /* NEW: sort dropdown + filter chips */
+        #sortSelect {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--item-bg);
+            color: var(--text-main);
+        }
+        .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+        .chip {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--item-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .chip.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Back button only shows on mobile, to return from preview to the file list */
+        #mobileBackBtn { display: none; }
+
+        /* --- MOBILE: single-panel layout ---
+           Below 768px, nav and preview stop sitting side-by-side (which was
+           squeezing both into unreadable half-width columns). Instead only
+           one panel is visible at a time: the file list by default, and the
+           preview pane full-screen once a document is opened. Toggling is
+           done by adding/removing body.mobile-preview in JS. */
+        @media (max-width: 768px) {
+            nav { width: 100%; }
+            #preview { display: none; width: 100%; }
+
+            body.mobile-preview nav { display: none; }
+            body.mobile-preview #preview { display: flex; }
+
+            #mobileBackBtn { display: inline-block; }
+
+            .preview-toolbar {
+                padding: 10px 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .toolbar-actions {
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+            .toolbar-actions button,
+            .toolbar-actions a button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            .toolbar-path { font-size: 12px; width: 100%; order: 2; }
+
+            #previewBox { margin: 12px; }
+
+            .nav-header { padding: 16px 12px; }
+            #companyLogo { max-width: 110px; }
+
+            .item { padding: 10px; }
+            .item .name { font-size: 13px; }
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -131,36 +245,69 @@
             <img id="companyLogo" src="logo.png" alt="Epic Atlantic">
         </a>
         <input type="text" id="search" placeholder="Search files..." onkeyup="doSearch()">
+        <div class="file-count-badge" id="fileCountBadge"></div>
     </div>
     <div class="explorer-container" id="explorer"></div>
 </nav>
 
 <section id="preview">
     <div class="preview-toolbar">
-        <button id="closeBtn" class="btn-danger" onclick="closePreview()">✕ Close</button>
-        <button onclick="toggleTheme()">🌗</button>
-        <a id="downloadBtn" style="display:none;"><button class="btn-primary">Download</button></a>
-        <button onclick="toggleFullscreen()">Expand</button>
+        <div class="toolbar-path" id="toolbarPath">Select a document to begin</div>
+        <div class="toolbar-actions">
+            <button id="mobileBackBtn" onclick="closePreview()">← Back</button>
+            <button id="closeBtn" class="btn-danger" onclick="closePreview()">✕ Close</button>
+            <button onclick="toggleTheme()">🌗</button>
+            <button id="copyLinkBtn" style="display:none;" onclick="copyFileLink()">🔗 Copy Link</button>
+            <a id="downloadBtn" style="display:none;"><button class="btn-primary">Download</button></a>
+            <button onclick="toggleFullscreen()">Expand</button>
+        </div>
     </div>
     <div id="previewBox">
         <div id="loader" class="spinner" style="display:none;"></div>
-        <p id="placeholder" style="color: var(--text-muted); font-weight: 500;">Select a document to begin</p>
+        <div id="placeholder" class="empty-state">
+            <i class="fa-solid fa-folder-open"></i>
+            <p>Select a document to begin</p>
+            <span class="empty-stats" id="emptyStats"></span>
+        </div>
     </div>
 </section>
+
 
 <script>
 let rootData = {};      
 let currentFolder = {}; 
 let history = [];       
 let pathStack = []; 
+let currentSort = 'name';   // 'name' | 'date' | 'size'
+let activeFilter = 'all';   // 'all' | 'pdf' | 'docx' | 'xlsx' | 'pptx'
+let currentFileUrl = "";
 
 async function loadData() {
     try {
         const res = await fetch("data.json");
         rootData = await res.json();
         currentFolder = rootData;
+        updateEmptyStats();
         render();
     } catch (e) { console.error("Load failed", e); }
+}
+
+// Count total files/folders across the whole tree for the empty-state stat line
+function updateEmptyStats() {
+    let fileCount = 0, folderCount = 0;
+    function walk(folder) {
+        if (!folder.items) return;
+        folder.items.forEach(item => {
+            if (item.type === "folder") { folderCount++; walk(item); }
+            else { fileCount++; }
+        });
+    }
+    walk(rootData);
+    const statsEl = document.getElementById('emptyStats');
+    if (statsEl) statsEl.textContent = `${fileCount} files across ${folderCount} folders`;
+
+    const badge = document.getElementById('fileCountBadge');
+    if (badge) badge.textContent = `${fileCount} documents · ${folderCount} folders`;
 }
 
 // 1. Automatic Icons based on type
@@ -187,12 +334,10 @@ function doSearch() {
         return;
     }
 
-    // Clear explorer to show search results
     container.innerHTML = `<div style="font-size:10px; color:var(--text-muted); font-weight:bold; margin-bottom:12px;">SEARCH RESULTS</div>`;
     
     const results = [];
     
-    // Recursive helper to find files in the JSON tree
     function searchDeep(folder) {
         if (!folder.items) return;
         folder.items.forEach(item => {
@@ -254,6 +399,57 @@ function jumpToPath(index) {
     }
 }
 
+// NEW: sort helper. Folders always float to the top regardless of mode.
+function sortItems(items) {
+    const copy = [...items];
+    copy.sort((a, b) => {
+        if ((a.type === 'folder') !== (b.type === 'folder')) {
+            return a.type === 'folder' ? -1 : 1;
+        }
+        if (currentSort === 'name') return a.name.localeCompare(b.name);
+        if (currentSort === 'date') return (b.date || '').localeCompare(a.date || '');
+        if (currentSort === 'size') return parseSize(b.size) - parseSize(a.size);
+        return 0;
+    });
+    return copy;
+}
+
+// NEW: turns "2.6 MB" / "128.8 KB" into a comparable byte count
+function parseSize(sizeStr) {
+    if (!sizeStr) return 0;
+    const match = sizeStr.match(/([\d.]+)\s*(KB|MB|GB)/i);
+    if (!match) return 0;
+    const num = parseFloat(match[1]);
+    const unit = match[2].toUpperCase();
+    const mult = unit === 'GB' ? 1e9 : unit === 'MB' ? 1e6 : 1e3;
+    return num * mult;
+}
+
+// NEW: type filter chips, rendered above the file list
+function renderFilterChips(container) {
+    const types = ['all', 'pdf', 'docx', 'xlsx', 'pptx'];
+    const row = document.createElement('div');
+    row.className = 'filter-chips';
+    types.forEach(t => {
+        const chip = document.createElement('span');
+        chip.className = `chip ${activeFilter === t ? 'active' : ''}`;
+        chip.textContent = t.toUpperCase();
+        chip.onclick = () => { activeFilter = t; render(); };
+        row.appendChild(chip);
+    });
+    container.appendChild(row);
+}
+
+// Matches an item's type against the active filter, treating doc/xls/ppt
+// as aliases of docx/xlsx/pptx so both extensions get caught by one chip.
+function matchesFilter(item) {
+    if (activeFilter === 'all' || item.type === 'folder') return true;
+    if (activeFilter === 'docx') return item.type === 'docx' || item.type === 'doc';
+    if (activeFilter === 'xlsx') return item.type === 'xlsx' || item.type === 'xls';
+    if (activeFilter === 'pptx') return item.type === 'pptx' || item.type === 'ppt';
+    return item.type === activeFilter;
+}
+
 function render() {
     const container = document.getElementById('explorer');
     if (!container) return;
@@ -271,12 +467,29 @@ function render() {
         leftNav.appendChild(back);
     }
     headerRow.appendChild(leftNav);
+
+    // Sort dropdown lives on the right side of the same header row
+    const sortBtn = document.createElement('select');
+    sortBtn.id = 'sortSelect';
+    sortBtn.innerHTML = `
+        <option value="name">Name</option>
+        <option value="date">Date</option>
+        <option value="size">Size</option>
+    `;
+    sortBtn.value = currentSort;
+    sortBtn.onchange = (e) => { currentSort = e.target.value; render(); };
+    headerRow.appendChild(sortBtn);
+
     container.appendChild(headerRow);
 
     renderBreadcrumbs(container);
+    renderFilterChips(container);
+
+    updateToolbarPath();
 
     if (currentFolder.items && currentFolder.items.length > 0) {
-        currentFolder.items.forEach((item, i) => {
+        const filtered = currentFolder.items.filter(matchesFilter);
+        sortItems(filtered).forEach((item, i) => {
             if (currentFolder.preview && item.name === currentFolder.preview.split('/').pop()) return;
 
             const div = createItem(item);
@@ -299,10 +512,20 @@ function render() {
     }
 }
 
+function updateToolbarPath(fileName) {
+    const el = document.getElementById('toolbarPath');
+    if (!el) return;
+    const folderPath = pathStack.length ? pathStack.join(' / ') : 'Root';
+    el.innerHTML = fileName
+        ? `${folderPath} / <span class="file-name">${fileName}</span>`
+        : folderPath;
+}
+
 function createItem(item) {
     const div = document.createElement('div');
     div.className = `item ${item.type || 'folder'}`;
     const metaText = item.type === 'folder' ? `${item.items?.length || 0} items` : (item.size || '---');
+    const dateHtml = item.date ? `<span class="item-date">${item.date}</span>` : '';
 
     div.innerHTML = `
         <div class="icon">${getFileIcon(item.type)}</div>
@@ -310,7 +533,7 @@ function createItem(item) {
             <span class="name">${item.name}</span>
             <div class="meta-row">
                 <span class="meta">${metaText}</span>
-                <span class="item-date">${item.date || "Apr 30, 2026"}</span>
+                ${dateHtml}
             </div>
         </div>
     `;
@@ -321,11 +544,23 @@ function showPreview(doc) {
     const box = document.getElementById('previewBox');
     const loader = document.getElementById('loader');
     const dlBtn = document.getElementById('downloadBtn');
+    const copyBtn = document.getElementById('copyLinkBtn');
     
     loader.style.display = "block";
     document.getElementById('placeholder').style.display = "none";
-    // Clear out previous iframes, imgs, and fallback text
     box.querySelectorAll('iframe, img, div.fallback-msg').forEach(el => el.remove());
+
+    updateToolbarPath(doc.name);
+
+    // On mobile, only flip to the full-screen preview pane when there's
+    // actually something to show. A plain folder click (no preview image)
+    // should keep the file list visible instead of jumping to an empty pane.
+    const isMobile = window.innerWidth <= 768;
+    const willShowContent = (doc.type === "folder" && doc.preview) || doc.type !== "folder";
+    if (isMobile) {
+        if (willShowContent) document.body.classList.add('mobile-preview');
+        else document.body.classList.remove('mobile-preview');
+    }
 
     let fileUrl = "";
     
@@ -333,33 +568,33 @@ function showPreview(doc) {
         fileUrl = new URL(doc.preview, window.location.href).href;
         box.insertAdjacentHTML('beforeend', `<img src="${fileUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" onload="hideLoader()">`);
         dlBtn.style.display = "none";
+        copyBtn.style.display = "none";
     } else if (doc.type !== "folder") {
         let fullPath = `docs/${pathStack.join('/')}/${doc.name}`.replace(/\/+/g, '/');
         fileUrl = new URL(fullPath, window.location.href).href;
         
         dlBtn.style.display = "inline-block";
         dlBtn.href = fileUrl;
+
+        // NEW: enable the copy-link button for this file
+        currentFileUrl = fileUrl;
+        copyBtn.style.display = "inline-block";
         
-        // Determine the actual file extension
         const ext = doc.name.split('.').pop().toLowerCase();
         const officeExts = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
         const imageExts = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
 
         if (doc.type === "pdf" || ext === "pdf") {
-            // PDF Viewer
             box.insertAdjacentHTML('beforeend', `<iframe src="${fileUrl}" width="100%" height="100%" frameborder="0" onload="hideLoader()"></iframe>`);
         } 
         else if (officeExts.includes(ext)) {
-            // Microsoft Office Online Viewer for Word, Excel, PowerPoint
             const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`;
             box.insertAdjacentHTML('beforeend', `<iframe src="${officeViewerUrl}" width="100%" height="100%" frameborder="0" onload="hideLoader()"></iframe>`);
         } 
         else if (imageExts.includes(ext)) {
-            // Image Viewer
             box.insertAdjacentHTML('beforeend', `<img src="${fileUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" onload="hideLoader()">`);
         } 
         else {
-            // Fallback for unknown file types (e.g., zip files, plain text)
             hideLoader();
             box.insertAdjacentHTML('beforeend', `
                 <div class="fallback-msg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; opacity:0.6;">
@@ -374,7 +609,37 @@ function showPreview(doc) {
     }
 }
 
+function closePreview() {
+    const box = document.getElementById('previewBox');
+    const dlBtn = document.getElementById('downloadBtn');
+    const copyBtn = document.getElementById('copyLinkBtn');
+    const placeholder = document.getElementById('placeholder');
 
+    box.querySelectorAll('iframe, img, div.fallback-msg').forEach(el => el.remove());
+
+    dlBtn.style.display = "none";
+    copyBtn.style.display = "none";
+    currentFileUrl = "";
+    updateToolbarPath();
+
+    placeholder.style.display = "flex";
+
+    document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+
+    // Back to the file list on mobile
+    if (window.innerWidth <= 768) document.body.classList.remove('mobile-preview');
+}
+
+// NEW: copies the currently previewed file's direct URL to the clipboard
+function copyFileLink() {
+    if (!currentFileUrl) return;
+    navigator.clipboard.writeText(currentFileUrl).then(() => {
+        const btn = document.getElementById('copyLinkBtn');
+        const original = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => { btn.textContent = original; }, 1500);
+    });
+}
 
 function hideLoader() { document.getElementById('loader').style.display = "none"; }
 function goHome() { currentFolder = rootData; history = []; pathStack = []; render(); }

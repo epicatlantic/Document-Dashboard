@@ -10,7 +10,11 @@
             /* Light Theme Variables */
             --bg-top: #ffffff;
             --bg-bottom: #f1f5f9;
-            --primary-text: #faa811;
+            /* UPDATED: wordmark now uses the same accent blue as Dashboard.html
+               instead of orange, so the two pages read as one product rather
+               than two different palettes. Orange is left free to stay a
+               one-time accent on the flame icon in the logo itself. */
+            --primary-text: #0284c7;
             --secondary-text: #64748b;
             --accent-blue: #0284c7; /* Professional corporate blue */
             --glass-bg: rgba(255, 255, 255, 0.7);
@@ -54,7 +58,20 @@
             color: var(--primary-text);
         }
 
-        .header-status { font-size: 0.8rem; color: var(--secondary-text); letter-spacing: 1px; }
+        /* UPDATED: given a touch more weight/size and its own line so it
+           reads as a deliberate subtitle instead of floating gray text
+           disconnected from the header. */
+        .header-status-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .header-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary-text);
+            letter-spacing: 1.5px;
+        }
 
         /* 2. Hero Slideshow Container */
         .hero-section {
@@ -219,11 +236,21 @@
             <img src="logo.png" alt="Epic Logo">
             <h1>Epic Atlantic</h1>
         </div>
-        <div class="header-status">PROJECT MANAGEMENT PORTAL</div>
+        <div class="header-status-group">
+            <div class="header-status">PROJECT MANAGEMENT PORTAL</div>
+        </div>
     </header>
 
     <main class="hero-section">
         <div class="slideshow-container">
+            <!--
+                NOTE: "Akabel coordinates.PNG" is the raw Google My Maps screenshot
+                (visible Google watermark + My Maps' own pagination dots baked into
+                the image). It's left in its original position for now, but it's
+                worth re-exporting a clean crop of just the map before this goes
+                live, since it currently looks like an unfinished screenshot next
+                to the other polished slides.
+            -->
             <div class="slide active"><img src="Airstrip.PNG"></div>
             <div class="slide"><img src="Picture1.png"></div>
             <div class="slide"><img src="Burnt ships.PNG"></div>
