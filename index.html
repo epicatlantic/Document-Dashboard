@@ -219,6 +219,37 @@
             border-radius: 4px; 
         }
 
+        /* NEW: slide caption badge — top-left of the slideshow, updates per slide */
+        .slide-caption {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main, #1e293b);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 8px 18px;
+            border-radius: 100px;
+            z-index: 15;
+            transition: opacity 0.3s ease;
+        }
+
+        /* NEW: thin progress bar showing time remaining before auto-advance */
+        .slide-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: var(--accent-blue);
+            z-index: 16;
+            transition: width linear;
+        }
+
         @media (max-width: 768px) {
             header { padding: 20px; }
             .header-status { display: none; }
@@ -226,6 +257,7 @@
             .nav-btn { width: 40px; height: 40px; font-size: 18px; }
             .prev-btn { left: 10px; }
             .next-btn { right: 10px; }
+            .slide-caption { top: 12px; left: 12px; font-size: 0.7rem; padding: 6px 14px; }
         }
     </style>
 </head>
@@ -250,18 +282,25 @@
                 worth re-exporting a clean crop of just the map before this goes
                 live, since it currently looks like an unfinished screenshot next
                 to the other polished slides.
+
+                CAPTIONS: each slide has a data-caption attribute feeding the
+                badge in the top-left corner. The labels below are my best
+                guess from the filenames — swap in the real site/feature names
+                where I've guessed wrong.
             -->
-            <div class="slide active"><img src="Airstrip.PNG"></div>
-            <div class="slide"><img src="Picture1.png"></div>
-            <div class="slide"><img src="Burnt ships.PNG"></div>
-            <div class="slide"><img src="Loading 3.png"></div>
-            <div class="slide"><img src="Picture2.png"></div>
-            <div class="slide"><img src="Picture4.png"></div>
-            <div class="slide"><img src="Akabel coordinates.PNG"></div>
+            <div class="slide active" data-caption="Site Airstrip"><img src="Airstrip.PNG"></div>
+            <div class="slide" data-caption="Project Overview"><img src="Picture1.png"></div>
+            <div class="slide" data-caption="Burnt Ships"><img src="Burnt ships.PNG"></div>
+            <div class="slide" data-caption="Loading Operations"><img src="Loading 3.png"></div>
+            <div class="slide" data-caption="Site Photograph"><img src="Picture2.png"></div>
+            <div class="slide" data-caption="Site Photograph"><img src="Picture4.png"></div>
+            <div class="slide" data-caption="Pipeline Route Map – OKNU to Akabel"><img src="Akabel coordinates.PNG"></div>
             
             <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">&#10094;</button>
             <button class="nav-btn next-btn" id="nextBtn" aria-label="Next slide">&#10095;</button>
 
+            <div class="slide-caption" id="slideCaption"></div>
+            <div class="slide-progress" id="slideProgress"></div>
             <div class="dot-container" id="dotGroup"></div>
         </div>
 
@@ -274,10 +313,15 @@
     <script>
         let currentSlide = 0;
         let slideInterval;
+        let progressTimer;
+        const SLIDE_DURATION = 5000; // ms — keep in sync with startTimer's interval below
         const slides = document.querySelectorAll('.slide');
         const dotGroup = document.getElementById('dotGroup');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const captionEl = document.getElementById('slideCaption');
+        const progressEl = document.getElementById('slideProgress');
+        const slideshowContainer = document.querySelector('.slideshow-container');
 
         // Dynamically create dots
         slides.forEach((_, i) => {
@@ -299,6 +343,13 @@
             currentSlide = (n + slides.length) % slides.length; // Handles negative values smoothly
             slides[currentSlide].classList.add('active');
             dots[currentSlide].classList.add('active');
+            updateCaption();
+        }
+
+        // NEW: syncs the top-left badge with whichever slide is active
+        function updateCaption() {
+            const label = slides[currentSlide].dataset.caption || '';
+            captionEl.textContent = label;
         }
 
         function nextSlide() {
@@ -333,7 +384,8 @@
 
         // Auto play timer controls
         function startTimer() {
-            slideInterval = setInterval(nextSlide, 5000);
+            slideInterval = setInterval(nextSlide, SLIDE_DURATION);
+            startProgress();
         }
 
         function resetTimer() {
@@ -341,7 +393,55 @@
             startTimer(); // Restarts the 5s clock so it doesn't change immediately after clicking
         }
 
-        // Start the slider auto-rotation
+        // NEW: fills the thin top progress bar over the autoplay duration,
+        // giving a visual cue before the slide auto-advances
+        function startProgress() {
+            progressEl.style.transition = 'none';
+            progressEl.style.width = '0%';
+            // Force a reflow so the transition below actually animates from 0%
+            void progressEl.offsetWidth;
+            progressEl.style.transition = `width ${SLIDE_DURATION}ms linear`;
+            progressEl.style.width = '100%';
+        }
+
+        function pauseProgress() {
+            const computedWidth = getComputedStyle(progressEl).width;
+            progressEl.style.transition = 'none';
+            progressEl.style.width = computedWidth;
+        }
+
+        // NEW: pause autoplay while the mouse is over the slideshow, so
+        // people can actually read a slide without it flipping away
+        slideshowContainer.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+            pauseProgress();
+        });
+        slideshowContainer.addEventListener('mouseleave', () => {
+            resetTimer();
+        });
+
+        // NEW: swipe support for touch devices — left/right swipe changes slides
+        let touchStartX = 0;
+        slideshowContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(slideInterval);
+            pauseProgress();
+        }, { passive: true });
+
+        slideshowContainer.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const delta = touchEndX - touchStartX;
+            const SWIPE_THRESHOLD = 50;
+            if (delta > SWIPE_THRESHOLD) {
+                prevSlide();
+            } else if (delta < -SWIPE_THRESHOLD) {
+                nextSlide();
+            }
+            resetTimer();
+        }, { passive: true });
+
+        // Initialize caption for the first slide, then start the slider
+        updateCaption();
         startTimer();
     </script>
 </body>
